@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 public abstract class TransactionReportGenerator {
 
-    // 1 символ = 1000 грн
     private static final int SCALE = 1000; 
     private static final char VISUAL_CHAR = '█';
     public static String generateTextReport(List<Transaction> transactions) {
@@ -22,7 +21,6 @@ public abstract class TransactionReportGenerator {
         report.append("              ЗВІТ ПРО АНАЛІЗ ФІНАНСОВИХ ТРАНЗАКЦІЙ\n");
         report.append("=================================================================\n\n");
 
-        // Сумарні витрати по категоріях
         report.append("## Сумарні Витрати по Категоріях (1 " + VISUAL_CHAR + " = " + SCALE + " грн)\n");
         Map<String, BigDecimal> categoryTotals = transactions.stream()
                 .collect(Collectors.groupingBy(Transaction::getCategory,
