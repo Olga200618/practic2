@@ -21,17 +21,14 @@ public class App {
             List<Transaction> transactions = TransactionCSVReader.readTransactions(CSV_FILE_PATH);
             System.out.println(" Успішно прочитано " + transactions.size() + " транзакцій.");
 
-            // 1. Звіт за категоріями та місяцями (Вимога 2.2)
             String report = TransactionReportGenerator.generateTextReport(transactions);
             System.out.println("\n" + report);
 
-            // 2. Топ-10 найбільших транзакцій (Вимога 1.2)
             System.out.println("\n--- ТОП-10 НАЙБІЛЬШИХ ТРАНЗАКЦІЙ ---");
             TransactionAnalyzer.findTop10LargestExpenses(transactions).forEach(t -> 
                 System.out.printf("  %s: %10.2f грн, %s (%s)%n", t.getDate(), t.getAmount(), t.getCategory(), t.getDescription())
             );
-            
-            // 3. Найбільша/Найменша за період (Вимога 2.1)
+      
             LocalDate startDate = LocalDate.of(2025, 2, 1);
             LocalDate endDate = LocalDate.of(2025, 3, 31);
             
