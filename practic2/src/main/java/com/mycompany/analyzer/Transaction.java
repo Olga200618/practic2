@@ -1,17 +1,12 @@
 package com.mycompany.analyzer;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
-@Value 
-@Builder 
+@Data
+@AllArgsConstructor
 public class Transaction {
-    String id;
-    LocalDate date;
-    BigDecimal amount;
-    String category;
-    String description;
+    private String date;
+    private double amount;
+    private String description;
 }
