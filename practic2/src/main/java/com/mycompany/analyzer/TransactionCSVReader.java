@@ -19,7 +19,6 @@ public abstract class TransactionCSVReader {
     public static List<Transaction> readTransactions(String filePath) throws IOException, CsvValidationException {
         List<Transaction> transactions = new ArrayList<>();
 
-        // withSkipLines(1) пропускає рядок заголовка
         try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath)).withSkipLines(1).build()) {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
