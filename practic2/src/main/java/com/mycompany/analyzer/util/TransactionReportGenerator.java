@@ -12,9 +12,8 @@ import java.util.stream.Collectors;
 
 public abstract class TransactionReportGenerator {
 
-    // 1 символ = 1000 грн
     private static final int SCALE = 1000; 
-    private static final char VISUAL_CHAR = '█'; // Використовуємо інший символ для кращої візуалізації
+    private static final char VISUAL_CHAR = '#';
 
     public static String generateTextReport(List<Transaction> transactions) {
         StringBuilder report = new StringBuilder();
@@ -23,8 +22,7 @@ public abstract class TransactionReportGenerator {
         report.append("              ЗВІТ ПРО АНАЛІЗ ФІНАНСОВИХ ТРАНЗАКЦІЙ\n");
         report.append("=================================================================\n\n");
 
-        // Сумарні витрати по категоріях
-        report.append("## 📊 Сумарні Витрати по Категоріях (1 " + VISUAL_CHAR + " = " + SCALE + " грн)\n");
+        report.append("## Сумарні Витрати по Категоріях (1 " + VISUAL_CHAR + " = " + SCALE + " грн)\n");
         Map<String, BigDecimal> categoryTotals = transactions.stream()
                 .collect(Collectors.groupingBy(Transaction::getCategory,
                         Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)));
@@ -40,8 +38,7 @@ public abstract class TransactionReportGenerator {
 
         report.append("\n" + "---" + "\n\n");
 
-        // Сумарні витрати по місяцях
-        report.append("## 📅 Сумарні Витрати по Місяцях (1 " + VISUAL_CHAR + " = " + SCALE + " грн)\n");
+        report.append("## Сумарні Витрати по Місяцях (1 " + VISUAL_CHAR + " = " + SCALE + " грн)\n");
         Map<Month, BigDecimal> monthTotals = transactions.stream()
                 .collect(Collectors.groupingBy(t -> t.getDate().getMonth(),
                         Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)));
@@ -62,11 +59,9 @@ public abstract class TransactionReportGenerator {
 
     private static String visualizeAmount(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            // Можемо візуалізувати від'ємні як "[-]" або просто пропустити
             return ""; 
         }
         
-        // Округлення до найближчого цілого для кількості символів
         int numberOfSymbols = amount.divide(new BigDecimal(SCALE), 0, RoundingMode.HALF_UP).intValue();
         
         return String.valueOf(VISUAL_CHAR).repeat(Math.min(50, Math.max(0, numberOfSymbols))); // Обмеження 50 символами
